@@ -17,7 +17,7 @@ if (isMainThread) {
     const threadNum = util.getCpuCore();
     console.log(`prefix: ${prefix}`);
     console.log(`estimated count: ${estimatedCount}`);
-    console.log(`estimated time: ${(estimatedCount / sampleCount * measuredSec).toFixed(2)} sec`);
+    console.log(`estimated time: ${(estimatedCount / sampleCount * measuredSec / threadNum).toFixed(2)} sec`);
 
     const start = performance.now();
     const workers = [];

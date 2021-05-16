@@ -17,7 +17,7 @@ function generate(prefix) {
 function measure(n) {
     const start = performance.now();
     for (let i = 0; i < n; i++) {
-        new Account();
+        new Account().publicKey.toBase58().toLowerCase().startsWith("sample");
     }
     return util.performanceSec(start);
 }
