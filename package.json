@@ -1,0 +1,29 @@
+{
+  "name": "vanity-sol",
+  "version": "0.0.1",
+  "description": "vanity address generator for solana",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jnst/vanity-sol.git"
+  },
+  "keywords": [
+    "solana",
+    "spl",
+    "vanity",
+    "address",
+    "wallet"
+  ],
+  "author": "jnst",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jnst/vanity-sol/issues"
+  },
+  "homepage": "https://github.com/jnst/vanity-sol#readme",
+  "dependencies": {
+    "@solana/web3.js": "^1.11.0"
+  }
+}
