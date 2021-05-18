@@ -4,6 +4,8 @@ const { Worker, workerData, isMainThread, threadId, parentPort } = require("work
 const util = require("./util");
 const wallet = require("./wallet");
 
+const threadNum = util.getCpuCore();
+
 if (isMainThread) {
     const args = process.argv.slice(2);
     if (args.length !== 1) {
@@ -15,11 +17,10 @@ if (isMainThread) {
     const estimatedCount = 58 ** prefix.length;
     const sampleCount = 100;
     const measuredMs = wallet.measure(sampleCount);
-    const threadNum = util.getCpuCore();
     const estimatedMs = Math.round(estimatedCount / sampleCount * measuredMs / threadNum);
     console.log(`prefix: ${prefix}`);
     console.log(`estimated count: ${estimatedCount}`);
-    console.log(`estimated time: ${util.humanize(estimatedMs)}`);
+    console.log(`estimated time : ${util.humanize(estimatedMs)}\n`);
 
     const start = performance.now();
     const workers = [];
@@ -27,15 +28,20 @@ if (isMainThread) {
         const worker = new Worker(__filename, {workerData: prefix});
         workers.push(worker);
         worker.on("message", (obj) => {
-            console.log(`public key: ${obj.publicKey}`);
-            console.log(`secret key: ${obj.secretKey}`);
-            for (let i = 0; i < threadNum; i++) {
-                workers[i].terminate();
+            const elapsedTime = performance.now() - start;
+            if (obj.done) {
+                console.log(`public key: ${obj.publicKey}`);
+                console.log(`secret key: ${obj.secretKey}`);
+                console.log(`complete! ${util.humanize(elapsedTime)}`);
+                for (let i = 0; i < threadNum; i++) {
+                    workers[i].terminate();
+                }
+            } else {
+                console.log(`generated ${obj.count} addresses in ${util.humanize(elapsedTime)}`);
             }
-            console.log(`${util.performanceSec(start).toFixed(2)} sec`);
         });
     }
 } else {
-    const result = wallet.generate(workerData, threadId);
+    const result = wallet.generate(workerData, threadId, threadNum);
     parentPort.postMessage(result);
 }
