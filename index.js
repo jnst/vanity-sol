@@ -30,15 +30,14 @@ if (isMainThread) {
         worker.on("message", (obj) => {
             const elapsedTime = performance.now() - start;
             if (obj.done) {
+                console.log(`complete!`);
                 console.log(`public key: ${obj.publicKey}`);
                 console.log(`secret key: ${obj.secretKey}`);
-                console.log(`complete! ${util.humanize(elapsedTime)}`);
                 for (let i = 0; i < threadNum; i++) {
                     workers[i].terminate();
                 }
-            } else {
-                console.log(`generated ${obj.count} addresses in ${util.humanize(elapsedTime)}`);
             }
+            console.log(`generated ${obj.count} addresses in ${util.humanize(elapsedTime)}`);
         });
     }
 } else {

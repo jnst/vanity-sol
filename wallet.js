@@ -6,11 +6,11 @@ function generate(prefix, threadId, threadNum) {
     let count = 0;
     while (true) {
         const account = new Account();
+        count++;
         if (match(account, prefix)) {
             return createResult(true, count * threadNum, account);
         }
         if (threadId === 1) {
-            count++;
             if (count % 50000 === 0) {
                 parentPort.postMessage(createResult(false, count * threadNum, account));
             }
