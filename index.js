@@ -14,6 +14,12 @@ if (isMainThread) {
     }
 
     const prefix = args[0];
+    const invalidChars = util.diffFromBase58(prefix);
+    if (invalidChars.length > 0) {
+        console.error(`invalid character contains: ${invalidChars}`);
+        process.exit(1);
+    }
+
     const estimatedCount = 58 ** prefix.length;
     const sampleCount = 100;
     const measuredMs = wallet.measure(sampleCount);

@@ -1,5 +1,16 @@
 const os = require("os");
 
+const BASE58_LETTERS = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+
+function diffFromBase58(s) {
+    return s.split('').reduce((acc, cur) => {
+        if (BASE58_LETTERS.indexOf(cur) === -1) {
+            acc.push(cur);
+        }
+        return acc;
+    }, []);
+}
+
 function getCpuCore() {
     const cpus = os.cpus();
     const n = cpus.length
@@ -75,6 +86,7 @@ function formatHumanize(year, day, hour, minute, second) {
 }
 
 module.exports = {
+    diffFromBase58,
     getCpuCore,
     humanize,
 };

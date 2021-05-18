@@ -1,5 +1,11 @@
 const util = require("./util");
 
+test("diffFromBase58", () => {
+    expect(util.diffFromBase58('0123456789')).toEqual(["0"]);
+    expect(util.diffFromBase58('ABCDEFGHIJKLMNOPQRSTUVWXYZ')).toEqual(["I", "O"]);
+    expect(util.diffFromBase58('abcdefghijklmnopqrstuvwxyz')).toEqual(["l"]);
+})
+
 test('humanize', () => {
     expect(util.humanize(989)).toBe("0.98 sec");
     expect(util.humanize(990)).toBe("0.99 sec");
