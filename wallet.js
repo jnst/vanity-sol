@@ -5,17 +5,21 @@ const { Account } = require("@solana/web3.js");
 function generate(prefix, threadId, threadNum) {
     let count = 0;
     while (true) {
-        const ac = new Account();
-        if (ac.publicKey.toBase58().startsWith(prefix)) {
-            return createResult(true, count * threadNum, ac);
+        const account = new Account();
+        if (match(account, prefix)) {
+            return createResult(true, count * threadNum, account);
         }
         if (threadId === 1) {
             count++;
             if (count % 50000 === 0) {
-                parentPort.postMessage(createResult(false, count * threadNum, ac));
+                parentPort.postMessage(createResult(false, count * threadNum, account));
             }
         }
     }
+}
+
+function match(account, s) {
+    return account.publicKey.toBase58().startsWith(s);
 }
 
 function createResult(done, count, account) {
@@ -30,7 +34,7 @@ function createResult(done, count, account) {
 function measure(n) {
     const start = performance.now();
     for (let i = 0; i < n; i++) {
-        new Account().publicKey.toBase58().toLowerCase().startsWith("sample");
+        match(new Account(), "sample");
     }
     return performance.now() - start;
 }
