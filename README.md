@@ -1,17 +1,59 @@
-# vanity-sol
+# Vanity SOL
 
-vanity address generator for solana
+Node.js based vanity address generator for solana
+
+## Features
+
+* Generate solana address
+* Supports Multi-core processors
+
+## Setup
+
+### Mac OS
+
+* Install [Homebrew](https://brew.sh/)
+* Install git and node.js
+
+```sh
+brew install git node
+```
+
+* Download source code
+
+```sh
+git clone https://github.com/jnst/vanity-sol.git
+```
+
+* Download node.js libraries
+
+```
+cd vanity-sol
+npm install
+````
 
 ## How to use
 
-```sh
-$ npm install
-$ node index.js xx
+Specify the prefix of wallet address
 
-prefix: xx
-estimated count: 3364
-estimated time: 8.27 sec
-public key: XXtPrk8XLBUgABBm6VTVTxfLqvYTWCDj1LgMHV1SLH6
-secret key: [175,210,34,60,198,158,127,168,183,242,189,93,201,11,155,200,174,105,235,150,168,201,32,59,165,227,200,225,237,50,54,175,7,210,88,232,211,169,244,203,116,206,34,66,159,196,72,252,181,51,218,115,214,42,15,116,191,131,165,167,255,51,3,185]
-10.32 sec
+```sh
+$ node index.js SoL
+prefix: SoL
+estimated count: 195112
+estimated time : 8 min 26 sec
+
+complete!
+public key: SoLtzJLkiYViKRBta5U4X8AfmMMzPpi1DcxrNskUXPD
+secret key: [16,46,155,16,195,11,108,130,12,131,194,246,231, ... ]
+generated 381722 addresses in 16 min 2 sec
 ```
+
+### Convenient mistake detection
+
+```sh
+$ node index.js SOl
+invalid character contains: O,l
+```
+
+## License
+
+MIT
