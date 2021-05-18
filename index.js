@@ -1,5 +1,6 @@
 const { performance } = require('perf_hooks');
-const { Worker, workerData, isMainThread, parentPort } = require("worker_threads");
+const { Worker, workerData, isMainThread, threadId, parentPort } = require("worker_threads");
+
 const util = require("./util");
 const wallet = require("./wallet");
 
@@ -13,11 +14,12 @@ if (isMainThread) {
     const prefix = args[0];
     const estimatedCount = 58 ** prefix.length;
     const sampleCount = 100;
-    const measuredSec = wallet.measure(sampleCount);
+    const measuredMs = wallet.measure(sampleCount);
     const threadNum = util.getCpuCore();
+    const estimatedMs = Math.round(estimatedCount / sampleCount * measuredMs / threadNum);
     console.log(`prefix: ${prefix}`);
     console.log(`estimated count: ${estimatedCount}`);
-    console.log(`estimated time: ${(estimatedCount / sampleCount * measuredSec / threadNum).toFixed(2)} sec`);
+    console.log(`estimated time: ${util.humanize(estimatedMs)}`);
 
     const start = performance.now();
     const workers = [];
@@ -34,6 +36,6 @@ if (isMainThread) {
         });
     }
 } else {
-    const result = wallet.generate(workerData);
+    const result = wallet.generate(workerData, threadId);
     parentPort.postMessage(result);
 }
