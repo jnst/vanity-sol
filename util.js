@@ -8,7 +8,7 @@ function getCpuCore() {
     }
     for (let i = 0; i < len; i++) {
         if (cpus[i].model.includes("Intel")) {
-            return len / 2; // Hyper-Threading
+            return Math.round(len / 2); // Hyper-Threading
         }
     }
     return len;
