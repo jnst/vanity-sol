@@ -2,16 +2,16 @@ const os = require("os");
 
 function getCpuCore() {
     const cpus = os.cpus();
-    const len = cpus.length
-    if (len === 1) {
+    const n = cpus.length
+    if (n === 1) {
         return 1;
     }
-    for (let i = 0; i < len; i++) {
+    for (let i = 0; i < n; i++) {
         if (cpus[i].model.includes("Intel")) {
-            return Math.round(len / 2); // Hyper-Threading
+            return Math.round(n / 2); // Hyper-Threading
         }
     }
-    return len;
+    return n;
 }
 
 const MS_SECOND = 1000;
