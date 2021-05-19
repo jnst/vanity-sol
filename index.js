@@ -25,7 +25,7 @@ if (isMainThread) {
     const measuredMs = wallet.measure(sampleCount);
     const estimatedMs = Math.round(estimatedCount / sampleCount * measuredMs / threadNum);
     console.log(`prefix: ${prefix}`);
-    console.log(`estimated count: ${estimatedCount}`);
+    console.log(`estimated count: ${estimatedCount.toLocaleString("en-US")}`);
     console.log(`estimated time : ${util.humanize(estimatedMs)}\n`);
 
     const start = performance.now();
@@ -43,7 +43,7 @@ if (isMainThread) {
                     workers[i].terminate();
                 }
             }
-            console.log(`generated ${obj.count} addresses in ${util.humanize(elapsedTime)}`);
+            console.log(`generated ${obj.count.toLocaleString("en-US")} addresses in ${util.humanize(elapsedTime)}`);
         });
     }
 } else {
